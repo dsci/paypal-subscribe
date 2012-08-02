@@ -5,7 +5,7 @@ Unfortunately in Germany there is no support for PayPal's recurring payment API 
 
 Before smashing my head against the wall, I decided to use their offer of creating a **subscription** button. 
 
-But that's hell to. Doing it once, and when I need another one, generating a new one - and it's not sure if this is working well at this time? 
+But that's hell too. Doing it once, and when I need another one, generating a new one - and it's not sure if this is working well at this time? 
 
 That is why this gem comes along. Drop it in your Rails app. Add some lines of configuration. Add the helper to the view. Done. 
 
