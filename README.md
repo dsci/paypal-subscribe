@@ -7,7 +7,7 @@ Before smashing my head against the wall, I decided to use their offer of creati
 
 But that's hell to. Doing it once, and when I need another one, generating a new one - and it's not sure if this is working well at this time? 
 
-That is why this gem comes along. Drop it in your Rails app. Add some lines of configuration. Add the helper to the form. Done. 
+That is why this gem comes along. Drop it in your Rails app. Add some lines of configuration. Add the helper to the view. Done. 
 
 ### Installation
 
@@ -92,7 +92,7 @@ PaypalSubscribe.setup do |config|
 end
 ```
 
-I added just a few configs which I need and which are required. You could extend the form options by adding a lambda to <code>config.additional_values</code>.
+I added just a few configs which I need and which are required. You can extend the form options by adding a lambda to <code>config.additional_values</code>.
 
 See more at [PayPal](https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables)
 
