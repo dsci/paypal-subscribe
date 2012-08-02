@@ -94,6 +94,8 @@ end
 
 I added just a few configs which I need and which are required. You can extend the form options by adding a lambda to <code>config.additional_values</code>.
 
+Currency defaults to <code>EUR</code>. But is changeable via <code>config.currency_code</code>. 
+
 See more at [PayPal](https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables)
 
 For more informations which options are already included see [here](https://github.com/dsci/paypal-subscribe/blob/master/lib/paypal-subscribe.rb)
