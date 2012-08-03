@@ -38,6 +38,7 @@ module ActionView
       # Returns a HTML form.  
       def paypal_subscribe_button(*args)
         options = args.extract_options!
+        id      = options.fetch(:id, "paypal_submit")
         paypal_uri = PaypalSubscribe.paypal_url
         paypal_form = form_tag(paypal_uri, :method => "POST")
 
@@ -61,7 +62,11 @@ module ActionView
 
         image_source = asset_path(options[:image])
 
-        paypal_form += image_submit_tag(image_source, :alt => options[:alt], :name => "submit")
+        paypal_form += image_submit_tag(image_source, 
+                                        { :alt => options[:alt],
+                                          :name => "submit",
+                                          :id => id
+                                        })
 
         paypal_form
       end
