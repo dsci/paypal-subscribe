@@ -47,6 +47,7 @@ module ActionView
         callbacks = []
         callbacks << {:return => config.delete(:return)}
         callbacks << {:cancel_return => config.delete(:cancel_return)}
+        callbacks << {:notify_url => config.delete(:notify_url)}
 
         config.each_pair do |key,value|
           paypal_form += hidden_field_tag("#{key}", value)
@@ -54,7 +55,7 @@ module ActionView
 
         callbacks.each do |callback_config|
           callback_config.each_pair do |key,value|
-            paypal_form += hidden_field_tag(key,:value => self.send("#{value}_url"))
+            paypal_form += hidden_field_tag(key,self.send("#{value}_url"))
           end
         end
 

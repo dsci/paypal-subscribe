@@ -19,6 +19,12 @@ module PaypalSubscribe
 
   @@paypal_config_hash = {}
 
+  SHIPPING = {
+      :address          => 0,
+      :none             => 1,
+      :require_address  => 2 
+    }
+
   autoload :Errors, 'paypal-subscribe/errors'
 
   # INTERNAL - Form url. 
@@ -65,6 +71,9 @@ module PaypalSubscribe
   # match '/mypaypal/success' => "transactions/success", :as => :paypal_success
   #
   # :paypal_success is default 
+  #
+  # Paypal returns params like this:
+  # {"auth"=>"AwkacusGt-1J7vlbxI88Yi0D-BsC4mxY.lmJw9DtfsqDUnuCWN0O5oYv0gZ7QJO0mVnmAEhdEymQHTAP4skMN0w"}
   mattr_accessor :success_callback
   @@success_callback = :paypal_success
 
@@ -82,6 +91,19 @@ module PaypalSubscribe
   mattr_accessor :failure_callback
   @@failure_callback = :paypal_failure
   
+  # The Paypal ipn callback config
+  #
+  # The URL to which PayPal posts information about the payment,
+  # in the form of Instant Payment Notification messages.
+  #
+  # Note that you have define a named route:
+  #
+  # match '/mypaypal/notification' => 'transaction/notify', :as => :paypal_notify
+  #
+  # :paypal_notify is default.
+  mattr_accessor :notify_callback
+  @@notify_callback = :paypal_notify
+
   # Regular subscription price.
   mattr_accessor :a3
 
@@ -130,13 +152,17 @@ module PaypalSubscribe
     @@no_note = no_able(value)
   end
 
+  mattr_reader :no_shipping
+
   # Do not prompt buyers for a shipping address.  
   #
   # Allowable values are:
-  #   0 – prompt for an address, but do not require one 
-  #   1 - do not prompt for an address 
-  #   2 – prompt for an address, and require one
-  mattr_accessor :no_shipping
+  #   :address – prompt for an address, but do not require one 
+  #   :none - do not prompt for an address 
+  #   :required_address – prompt for an address, and require one 
+  def no_shipping=(value)
+    @@no_shipping = SHIPPING[value]
+  end
 
   # Pass-through variable you can use to identify your 
   # invoice number for this purchase
@@ -170,7 +196,8 @@ module PaypalSubscribe
   # Returns a hash with all config options.
   def paypal_config
     exceptionals = {:success_callback => :return, 
-                    :failure_callback => :cancel_return}
+                    :failure_callback => :cancel_return,
+                    :notify_callback  => :notify_url}
     self.class_variables.each do |c_var|
       key = c_var.to_s.gsub("@@","").to_sym
       unless key.eql?(:paypal_config_hash)

@@ -108,6 +108,40 @@ Open your view and put a helper in it:
 
 **Note** that image is just a file (name) which should be accessible through the asset pipeline.
 
+## Callbacks
+
+The gem provides three default callbacks:
+
+* success
+* failure
+* notify
+
+To get use of this callbacks you have to define named routes like this. 
+
+```ruby
+scope :module => "transactions" do
+    match "/paypal/success" => "paypal#paypal_success", :as => :paypal_success
+    match "/paypal/failure" => "paypal#paypal_failure", :as => :paypal_failure
+    match "/paypal/notify"  => "paypal#paypal_notify",  :as => :paypal_notify
+  end
+```
+
+**paypal-subscribe** default to:
+
+* <code>paypal_success</code> on *return*
+* <code>paypal_failure</code> on *cancel_return*
+* <code>paypal_notify</code> on *notify*
+
+If you are fine with that, all is done. 
+
+If you are not fine with that, assign your custom routes within the config block:
+
+```ruby
+config.success_callback = :my_own_success_callback_route
+config.failure_callback = :my_own_failure_callback_route
+config.paypal_notify    = :my_own_notify_callback_route
+```
+
 ## Contributing to paypal-subscribe
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
@@ -120,6 +154,6 @@ Open your view and put a helper in it:
 
 ## Copyright
 
-Copyright (c) 2012 Daniel. See LICENSE.txt for
+Copyright (c) 2012 Daniel Schmidt. See LICENSE.txt for
 further details.
 
