@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "paypal-subscribe"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Schmidt"]
-  s.date = "2012-08-02"
+  s.date = "2012-08-03"
   s.description = "A rails helper to display a PayPal subscribe button."
   s.email = "dsci@code79.net"
   s.extra_rdoc_files = [
@@ -20,10 +20,15 @@ Gem::Specification.new do |s|
     ".document",
     ".rspec",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE.txt",
+    "README.md",
     "Rakefile",
     "VERSION",
     "lib/paypal-subscribe.rb",
+    "lib/paypal-subscribe/action_view/form_helper.rb",
+    "lib/paypal-subscribe/errors.rb",
+    "paypal-subscribe.gemspec",
     "spec/paypal-subscribe_spec.rb",
     "spec/spec_helper.rb"
   ]
