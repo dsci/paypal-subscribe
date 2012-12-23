@@ -53,6 +53,8 @@ module ActionView
         config.each_pair do |key,value|
           paypal_form += hidden_field_tag("#{key}", value)
         end
+        
+        paypal_form += hidden_field_tag("a3", options[:price])
 
         callbacks.each do |callback_config|
           callback_config.each_pair do |key,value|
