@@ -40,37 +40,37 @@ module ActionView
         options = args.extract_options!
         id      = options.fetch(:id, "paypal_submit")
         paypal_uri = PaypalSubscribe.paypal_url
-        paypal_form = form_tag(paypal_uri, :method => "POST")
-
-        paypal_form += hidden_field_tag("cmd", "_xclick-subscriptions")
+        paypal_form = form_tag(paypal_uri, :method => :post) do
+          fields = hidden_field_tag("cmd", "_xclick-subscriptions")
         
-        config = PaypalSubscribe.paypal_config
-        callbacks = []
-        callbacks << {:return => config.delete(:return)}
-        callbacks << {:cancel_return => config.delete(:cancel_return)}
-        callbacks << {:notify_url => config.delete(:notify_url)}
+          config = PaypalSubscribe.paypal_config
+          callbacks = []
+          callbacks << {:return => config.delete(:return)}
+          callbacks << {:cancel_return => config.delete(:cancel_return)}
+          callbacks << {:notify_url => config.delete(:notify_url)}
 
-        config.each_pair do |key,value|
-          paypal_form += hidden_field_tag("#{key}", value)
-        end
-        
-        paypal_form += hidden_field_tag("a3", options[:price])
-
-        callbacks.each do |callback_config|
-          callback_config.each_pair do |key,value|
-            paypal_form += hidden_field_tag(key,self.send("#{value}_url"))
+          config.each_pair do |key,value|
+            fields << hidden_field_tag("#{key}", (options[key] ? options[key] : value))
           end
+
+          callbacks.each do |callback_config|
+            callback_config.each_pair do |key,value|
+              fields << hidden_field_tag(key,self.send("#{value}_url"))
+            end
+          end
+
+          image_source = asset_path(options[:image])
+
+          fields << image_submit_tag(image_source, 
+                           { :alt => options[:alt],
+                             :name => "submit",
+                             :id => id
+                           })
+
+          fields
         end
 
-        image_source = asset_path(options[:image])
-
-        paypal_form += image_submit_tag(image_source, 
-                                        { :alt => options[:alt],
-                                          :name => "submit",
-                                          :id => id
-                                        })
-
-        paypal_form
+        paypal_form.html_safe
       end
       alias_method :paypal_subscribe_form,:paypal_subscribe_button
     end

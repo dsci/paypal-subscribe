@@ -105,7 +105,7 @@ module PaypalSubscribe
   @@notify_callback = :paypal_notify
 
   # Regular subscription price.
-  # mattr_accessor :a3
+  mattr_accessor :a3
 
   # Regular subscription units of duration. 
   #
