@@ -103,8 +103,16 @@ For more informations which options are already included see [here](https://gith
 Open your view and put a helper in it:
 
 ```ruby
-<%=paypal_subscribe_button :image => "logo.png", :alt => "Button description"%>
+<%=paypal_subscribe_form :image => "logo.png", :alt => "Button description"%>
 ```
+
+To use a ordinary button instead of an image use:
+
+```ruby
+<%= paypal_subscribe_form :button => true, :value => "Pay with Paypal", 
+                          :html => {:class=> "btn btn-alert"} %>
+``
+
 
 **Note** that image is just a file (name) which should be accessible through the asset pipeline.
 
@@ -141,6 +149,10 @@ config.success_callback = :my_own_success_callback_route
 config.failure_callback = :my_own_failure_callback_route
 config.paypal_notify    = :my_own_notify_callback_route
 ```
+
+## Contributors
+
+Thanks to Paavo Leinonen <paavo@dealmachine.net>. 
 
 ## Contributing to paypal-subscribe
  

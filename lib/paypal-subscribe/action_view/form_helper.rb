@@ -29,10 +29,15 @@ module ActionView
       # </form>
       # 
       # * args - a list of arguments that includes an options hash:
-      #   * image  -  The name of the image which is used within submit button.
-      #               Note that the image should be just a name which is accesible
-      #               through the asset pipeline
-      #   * alt    -  The alt tag content for the button
+      #   * :image  -   The name of the image which is used within submit button.
+      #                 Note that the image should be just a name which is accesible
+      #                 through the asset pipeline. This is only useable if :button is false
+      #                 or not used.
+      #   * :alt    -   The alt tag content for the button (if image is used)
+      #   * :button -   Indicator if a submit button should be used instead of an image
+      #   * :html   -   Any html options. See ActionView::Helpers::FormTagHelper#submit_tag
+      #                 for details.
+      #   * :id     -   The submit tag id. Defaults to "paypal_submit"
       # Other configurations should be made in Rails.root/config/initializers
       #
       # Returns a HTML form.  
@@ -61,12 +66,18 @@ module ActionView
 
           image_source = asset_path(options[:image])
 
-          fields << image_submit_tag(image_source, 
+          if options[:button]
+            html_options = options.fetch(:html, {})
+            html_options[:id] = id
+            fields << submit_tag(options[:value],html_options) 
+          else
+            fields << image_submit_tag(image_source, 
                            { :alt => options[:alt],
                              :name => "submit",
                              :id => id
                            })
 
+          end
           fields
         end
 
