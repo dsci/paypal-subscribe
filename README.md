@@ -111,7 +111,7 @@ To use a ordinary button instead of an image use:
 ```ruby
 <%= paypal_subscribe_form :button => true, :value => "Pay with Paypal", 
                           :html => {:class=> "btn btn-alert"} %>
-``
+```
 
 
 **Note** that image is just a file (name) which should be accessible through the asset pipeline.
